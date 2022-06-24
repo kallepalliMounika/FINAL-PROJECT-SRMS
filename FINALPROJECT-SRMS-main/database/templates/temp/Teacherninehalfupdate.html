@@ -1,0 +1,127 @@
+{% extends "main.html" %}
+{% block content %}
+{% load static %}
+<head>
+  <style>
+    .side-navbar {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  margin-left: -200px;
+  background-color:#4863A0;
+  transition: 0.5s;
+  border-color: yellow;
+}
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #ffffff26;
+}.my-container {
+  transition: 0.4s;
+}
+.active-nav {
+  margin-left: -209px;
+}
+/* for main section */
+.active-cont {
+  margin-left: 180px;
+}
+#menu-btn {
+  background-color: ;
+  color: white;
+  margin-left: -62px;
+}
+.mx-2{
+  font-size: 20px;
+  color: white;
+}
+  </style>
+</head>
+<body>
+      <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <ul class="nav flex-column text-white w-100">
+    <a href="#" class="nav-link h3 text-white my-2">
+      TEACHER
+    </a>
+    <a href="/Teacher/Welcome/same/{{Id}}/" class="nav-link">
+      <span class="mx-2"><b>HOME</b></span>
+    </a>
+    <a href="/Teacher/Attendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>ATTENDANCE</b></span>
+  </a>
+  <a href="/Teacher/Marks/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>MARKS</b></span>
+  </a>
+    <!--<a href="/Faculty/AddStudent/Details/Register/NewStudent/" class="nav-link">
+      <span class="mx-2"><b>ADD STUDENT</b></span>-->
+    </a>
+    <a href="/" class="nav-link">
+      <span class="mx-2"><b>LOGOUT</b></span>
+    </a>
+  </ul>
+</div>
+<div class="p-1 my-container active-cont">
+<!--<a href = "/"><img src="{% static '/Image/Logouticon.jfif' %}" style="width:40px;height:40px; margin-left: 100%;margin-top:10px;"></a>--><br>
+<h5>I Internal</h5>
+<form id = 'I InternalSubmit' method="POST" action="/Teacher/IInternalSubmit/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">
+    {% csrf_token %}
+    <button id="submit" type = 'submit' name = 'SUBMIT' value= 'updatemarks' class="btn btn-primary active">SUBMIT MARKS</button>
+    <div>
+        <br>
+        <label>MARKS CONDUCTED FOR:</label>
+        <input type="text" name="Total Marks" placeholder="Enter The Total Marks Exam Is Conducted For" value="30" readonly="">
+    </div><br>
+    <table class="table">
+        <thead><tr>
+            <th scope="col">#</th>
+            <th scope="col">STUDENT NAME</th>
+            <th scope="col">ROLL NUMBER</th>
+            <th scope="col">ABSENT FOR EXAM</th>
+            <th scope="col">MARKS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in Attendance %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{student.Roll_Number_Marks.First_Name}}</td>
+            <td><b>{{student.Roll_Number_Marks.Roll_Number}}</b></td>
+            {% if student.Marks_Alloted == None %}
+            <td><input type="text" name = '{{student.Roll_Number_Marks.Roll_Number}}' id = "{{student.Roll_Number_Marks.Roll_Number}}" class="btn btn-primary" value = "Absent" readonly=""></input></td>
+            {% else %}
+            <td><input type="text" name = '{{student.Roll_Number_Marks.Roll_Number}}' id = "{{student.Roll_Number_Marks.Roll_Number}}" class="btn btn-primary" value = "Present" readonly=""></input></td>
+            {% endif %}
+            <td><input type = 'text' id = "{{student.Roll_Number_Marks.Roll_Number}}" name = "{{student.Roll_Number_Marks.Roll_Number}}" class={{student.Roll_Number_Marks.Roll_Number}} placeholder="Enter Marks" autocomplete="off" value = '{{student.Marks_Alloted}}'></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</form>
+<a class="btn border-0" id="menu-btn">
+    <i class="bx bx-menu"></i>
+  </a>
+</div>
+</body>
+<script>
+var colors = ["#1870d5","#1b7ced"];
+var buttons = document.querySelectorAll('input[class = "btn btn-primary"]');
+
+for (var i=0; i<buttons.length; ++i) {
+  var colorIndex = 0;
+  buttons[i].addEventListener('click', clickFunc);
+}
+function clickFunc() {
+  var col = document.getElementById(this.id);
+  var col1 = document.getElementsByClassName(this.id);
+  /*col.style.backgroundColor = colors[colorIndex];*/
+  colorIndex = (colorIndex + 1) % colors.length;
+  if (colorIndex == 0){
+    col.value = "Absent";
+    col1.value = 'None';
+  }
+  else{
+    col.value = "Present";
+  }
+}
+</script> 
+{% endblock %}

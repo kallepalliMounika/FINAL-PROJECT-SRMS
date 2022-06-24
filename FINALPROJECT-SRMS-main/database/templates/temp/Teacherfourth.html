@@ -1,0 +1,142 @@
+{% extends "main.html" %}
+
+{% block content %}
+{% load static %}
+<!--<a href= "/"><img src="{% static '/Image/Logouticon.jfif' %}" style="width:40px;height:40px; margin-left: 100%"></a><br>
+  <a href="javascript:history.go(-1)"><img src="{% static '/Image/Backicon.png' %}" style="width:40px;height:40px;margin-top: -70px"></a><br>-->
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<style>
+
+.btn-circle.btn-xl {
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 35px;
+            font-size: 12px;
+            text-align: center;
+        }
+.vl {
+  border-left: 10px solid #00868B;;
+  height: 500px;
+  margin-left: -20px;
+}
+.card{
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-color: #99c2ff;
+}
+        .side-navbar {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  margin-left: -200px;
+  background-color:#4863A0;
+  transition: 0.5s;
+  border-color: yellow;
+}
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #ffffff26;
+}.my-container {
+  transition: 0.4s;
+}
+.active-nav {
+  margin-left: -209px;
+}
+/* for main section */
+.active-cont {
+  margin-left: 180px;
+}
+#menu-btn {
+  background-color: ;
+  color: white;
+  margin-left: -62px;
+}
+.mx-2{
+  font-size: 20px;
+  color: white;
+}
+</style>
+</head>
+<body>
+	<div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <ul class="nav flex-column text-white w-100">
+    <a href="#" class="nav-link h3 text-white my-2">
+     	TECAHER
+    </a>
+    <a href="/Teacher/Welcome/same/{{Id}}/" class="nav-link">
+      <span class="mx-2"><b>HOME</b></span>
+    </a>
+    <a href="/Teacher/Attendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>ATTENDANCE</b></span>
+  </a>
+  <a href="/Teacher/Marks/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>MARKS</b></span>
+  </a>
+    <a href="/" class="nav-link">
+      <span class="mx-2"><b>LOGOUT</b></span>
+    </a>
+  </ul>
+</div>
+<div class="p-1 my-container active-cont">
+<div class="container">
+<form id = "Attendancesubmit" action = '/Teacher/AddAttendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/' method="POST">
+<div class="container1">
+	{% csrf_token %}
+	<br><!--<button type="button" class="btn btn-primary active" data-bs-toggle="button" autocomplete="off" aria-pressed="true" id="submit" name = 'SUBMIT' value= 'submit'>SUBMIT ATTENDANCE</button>-->
+	<button id="submit" type = 'submit' name = 'SUBMIT' value= 'submit' class="btn btn-primary active">SUBMIT ATTENDANCE</button>
+	<br><br>
+	<div class="md-form md-outline input-with-post-icon datepicker" id="formatsSection">
+		<label for="formats-example"><b style="color:#66a3ff;">SELECT DATE</b></label>
+		<input placeholder="Select date" name = "Date" type="date" id="formats-example" class="form-control" required="">
+		<i class="fas fa-calendar input-prefix" tabindex=0></i>
+</form>
+<br>
+<table class="table">
+	<thead><tr>
+		<th scope="col">#</th>
+		<th scope="col">STUDENT NAME</th>
+		<th scope="col">ROLL NUMBER</th>
+		<th scope="col">ATTENDANCE</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for student in Attendance %}
+		<tr>
+		<th scope="row">{{forloop.counter}}</th>
+		<td>{{student.First_Name}}&nbsp; {{student.Last_Name}}</td>
+		<td><b>{{student.Roll_Number}}</b></td>
+		<td><input type = 'text' id = "{{student.Roll_Number}}" name = "{{student.Roll_Number}}" class="btn btn-primary active" readonly="" value = 'PRESENT'></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+<a class="btn border-0" id="menu-btn">
+    <i class="bx bx-menu"></i>
+  </a>
+</div>
+<script>
+var colors = ["#1870d5","#1b7ced"];
+var colorIndex = 0;
+var buttons = document.querySelectorAll('input[class = "btn btn-primary active"]');
+
+for (var i=0; i<buttons.length; ++i) {
+  buttons[i].addEventListener('click', clickFunc);
+}
+function clickFunc() {
+	var col = document.getElementById(this.id);
+	/*col.style.backgroundColor = colors[colorIndex];*/
+	colorIndex = (colorIndex + 1) % colors.length;
+	if (colorIndex == 0){
+		col.value = "PRESENT";
+	}
+	else{
+		col.value = "ABSENT";
+	}
+}
+</script> 
+</body> 
+{% endblock %}

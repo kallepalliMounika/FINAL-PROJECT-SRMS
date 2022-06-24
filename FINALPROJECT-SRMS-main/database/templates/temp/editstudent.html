@@ -1,0 +1,129 @@
+{% extends "main.html" %}
+
+{% block content %}
+<style>
+  .container1{
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  margin-top: 2%;
+  width:100%;
+
+  }
+  .btn btn-dark{
+    margin-top: 2%;
+  }
+  .side-navbar {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  margin-left: -300px;
+  background-color:#ffa500;
+  transition: 0.5s;
+  border-color: yellow;
+}
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #ffffff26;
+}.my-container {
+  transition: 0.4s;
+}
+.active-nav {
+  margin-left: -200px;
+}
+/* for main section */
+.active-cont {
+  margin-left: 180px;
+}
+#menu-btn {
+  background-color: ;
+  color: white;
+  margin-left: -62px;
+}
+.mx-2{
+  font-size: 20px;
+  color: white;
+}
+.navbar-light{
+  margin-left: 80px;
+  height: 70px;
+  width: 1400px;
+}
+.nav-link{
+  position: left;
+}
+</style>
+<body>
+  <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <ul class="nav flex-column text-white w-100">
+    <a href="#" class="nav-link h3 text-white my-2">
+      ADMINSTRATION
+    </a>
+    <a href="/Homepage/Welcome/same/" class="nav-link">
+      <span class="mx-2"><b>HOME</b></span>
+    </a>
+    <a href="/Faculty/AddStudent/Details/Register/NewStudent/" class="nav-link">
+      <span class="mx-2"><b>ADD STUDENT</b></span>
+    </a>
+    <a href="/" class="nav-link">
+      <span class="mx-2"><b>LOGOUT</b></span>
+    </a>
+  </ul>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/Faculty/Edit/{{year}}/{{group}}/{{roll}}/" style="color: #ffa500;margin-left: 800px;font-size: 20px;"><b>EDIT STUDENT</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Faculty/Delete/{{year}}/{{group}}/{{roll}}/" style="color: #ffa500;font-size: 20px;"><b>DELETE STUDENT</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Faculty/Certificates/{{year}}/{{group}}/{{roll}}/" style="color: #ffa500;font-size: 20px;"><b>STUDENT DOCUMENTS</b></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="p-1 my-container active-cont">
+  <br>
+{% load static %}
+<!--<a href= "/"><img src="{% static '/Image/Logouticon.jfif' %}" style="width:40px;height:40px; margin-left: 100%"></a><br>
+  <a href="javascript:history.go(-1)"><img src="{% static '/Image/Backicon.png' %}" style="width:40px;height:40px;margin-top: -70px"></a><br>-->
+<form action = "/Faculty/AddStudent/Details/Register/NewStudent/" enctype='multipart/form-data' method = 'POST'>
+{% csrf_token %}
+<h1 style="font-family: serif;">EDIT STUDENT</h1>
+
+<div class="container1"><br>
+  <img src="{%static '/Image/a.jpg' %}" style="margin-left: 750px; width:40%">
+  <div style="margin-top: -270px;">
+
+
+ {% for field in form %}
+
+ <b> <div class="row" style="width: 1000px; margin-left: 5px; font-family: cursive;"></b>
+    <div class="col">
+      <h6>{{ field.label }}</h6>
+    </div>
+    <div class="col">
+      {{ field }}
+    </div>
+  </div>
+    <br>
+{% endfor %}
+<br><center>
+<input type="submit" value="SUBMIT" style=" width: 200px;" class='btn btn-warning'><br></center>
+</div>
+ </div>
+</div>
+</form>
+<br>
+</b>
+</div>
+</div>
+</form>
+<a class="btn border-0" id="menu-btn">
+    <i class="bx bx-menu"></i>
+  </a>
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "main.html" %}
+{% load mathfilters %}
+{% block content %}
+{% load static %}
+<style>
+.vl {
+  border-left: 10px solid #00868B;;
+  height: 500px;
+  margin-left: -20px;
+}
+.card{
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-color: #99c2ff;
+}
+        .side-navbar {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  margin-left: -200px;
+  background-color:#4863A0;
+  transition: 0.5s;
+  border-color: yellow;
+}
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #ffffff26;
+}.my-container {
+  transition: 0.4s;
+}
+.active-nav {
+  margin-left: -209px;
+}
+/* for main section */
+.active-cont {
+  margin-left: 180px;
+}
+#menu-btn {
+  background-color: ;
+  color: white;
+  margin-left: -62px;
+}
+.mx-2{
+  font-size: 20px;
+  color: white;
+}
+    </style>
+  <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <ul class="nav flex-column text-white w-100">
+    <a href="#" class="nav-link h3 text-white my-2">
+      TEACHER
+    </a>
+    <a href="/Teacher/Welcome/same/{{Id}}/" class="nav-link">
+      <span class="mx-2"><b>HOME</b></span>
+    </a>
+    <a href="/Teacher/Attendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>ATTENDANCE</b></span>
+  </a>
+  <a href="/Teacher/Marks/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>MARKS</b></span>
+  </a>
+    <a href="/" class="nav-link">
+      <span class="mx-2"><b>LOGOUT</b></span>
+    </a>
+  </ul>
+</div>
+<!--<a href= "/"><img src="{% static '/Image/Logouticon.jfif' %}" style="width:40px;height:40px; margin-left: 100%"></a><br>
+  <a href="javascript:history.go(-1)"><img src="{% static '/Image/Backicon.png' %}" style="width:40px;height:40px;margin-top: -70px"></a><br>-->
+  <br><br>
+  <div class="p-1 my-container active-cont">
+<div class="container">
+<form id = 'AttendanceTotal' method="POST" action="/Teacher/MarkAttendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">
+{% csrf_token %}
+<button id="submit" type = 'submit' name = 'SUBMIT' value= 'Mark' class="btn btn-primary active">MARK ATTENDANCE</button>
+<button id="submit" type = 'submit' name = 'SUBMIT' value= 'Delete' class="btn btn-primary active">DELETE ATTENDANCE</button>
+<button id="submit" type = 'submit' name = 'SUBMIT' value= 'Report' class="btn btn-primary active" style = 'margin-left: 80%; margin-top: -4%;'>REPORT GENERATED</button>
+<br><br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope = "col"> checkbox</th>
+      <th scope="col">#</th>
+      <th scope="col">Date of the Attendance</th>
+      <th scope="col">Number Of Absent</th>
+      <th scope="col">Number Of Present</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for Date,value in Dates.items %}
+    <tr>
+      <td><input type = 'checkbox' name = '{{Date}}'></td>
+      <th scope="row">{{forloop.counter}}</th>
+      <td><a href = "/Teacher/UpdateAttendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/{{Date}}">{{Date}}</a></td>
+      <td>{{T|sub:value}}</td>
+      <td>{{value}}</td>
+    </tr>
+    {% endfor %}
+   </tbody>
+</table>
+</form>
+</div>
+<a class="btn border-0" id="menu-btn">
+    <i class="bx bx-menu"></i>
+  </a>
+</div>
+{% endblock %}

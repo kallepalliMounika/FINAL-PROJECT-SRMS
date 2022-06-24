@@ -1,0 +1,109 @@
+{% extends "main.html" %}
+
+{% block content %}
+{% load static %}
+<head>
+  <style>
+    .side-navbar {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  margin-left: -200px;
+  background-color:#4863A0;
+  transition: 0.5s;
+  border-color: yellow;
+}
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #ffffff26;
+}.my-container {
+  transition: 0.4s;
+}
+.active-nav {
+  margin-left: -209px;
+}
+/* for main section */
+.active-cont {
+  margin-left: 180px;
+}
+#menu-btn {
+  background-color: ;
+  color: white;
+  margin-left: -62px;
+}
+.mx-2{
+  font-size: 20px;
+  color: white;
+}
+  </style>
+</head>
+<body>
+      <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <ul class="nav flex-column text-white w-100">
+    <a href="#" class="nav-link h3 text-white my-2">
+        TEACHER
+    </a>
+    <a href="/Teacher/Welcome/same/{{Id}}/" class="nav-link">
+      <span class="mx-2"><b>HOME</b></span>
+    </a>
+    <a href="/Teacher/Attendance/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>ATTENDANCE</b></span>
+  </a>
+  <a href="/Teacher/Marks/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" class="nav-link">
+      <span class="mx-2"><b>MARKS</b></span>
+  </a>
+    <!--<a href="/Faculty/AddStudent/Details/Register/NewStudent/" class="nav-link">
+      <span class="mx-2"><b>ADD STUDENT</b></span>-->
+    </a>
+    <a href="/" class="nav-link">
+      <span class="mx-2"><b>LOGOUT</b></span>
+    </a>
+  </ul>
+</div>
+<div class="p-1 my-container active-cont">
+<!--<a href = "/"><img src="{% static '/Image/Logouticon.jfif' %}" style="width:40px;height:40px; margin-left: 100%; margin-top:10px;"></a>--><br>
+<nav class="nav nav-pills nav-justified">
+  <a class="nav-link" aria-current="page" href="/Teacher/IInternal/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">I INTERNAL</a>
+  <a class="nav-link" href="/Teacher/IIInternal/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">II INTERNAL</a>
+  <a class="nav-link" href="/Teacher/Assignment/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">ASSIGNMENT</a>
+  <a class="nav-link active" href="/Teacher/Semester/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/" tabindex="-1" aria-disabled="true">SEMESTER</a>
+</nav><br>
+<h5>Semester</h5>
+<form id = 'SemesterSubmit' method="POST" action="/Teacher/SemesterSubmit/{{Id}}/{{Year}}/{{Group}}/{{Semester}}/{{Course}}/">
+    {% csrf_token %}
+    <button id="submit" type = 'submit' name = 'SUBMIT' value= 'submit' class="btn btn-primary active">SUBMIT SEMESTER MARKS</button>
+    <div>
+        <br>
+        <label>MARKS CONDUCTED FOR:</label>
+        <input type="text" name="Total Marks" placeholder="Enter The Total Marks Exam Is Conducted For" value="75">
+    </div><br>
+    <table class="table">
+        <thead><tr>
+            <th scope="col">#</th>
+            <th scope="col">STUDENT NAME</th>
+            <th scope="col">ROLL NUMBER</th>
+            <th scope="col">ABSENT FOR EXAM</th>
+            <th scope="col">MARKS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in Attendance %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{student.Last_Name}}&nbsp;{{student.First_Name}}</td>
+            <td><b>{{student.Roll_Number}}</b></td>
+            <td><input type = 'checkbox' name = '{{student.Roll_Number}}' style="margin-left: 60px;color: blue;border: blue;"></td>
+            <td><input type = 'text' id = "{{student.Roll_Number}}" name = "{{student.Roll_Number}}" class="" placeholder="Enter Marks" autocomplete="off"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</form>
+</table>
+<a class="btn border-0" id="menu-btn">
+    <i class="bx bx-menu"></i>
+  </a>
+</div>
+</body>
+{% endblock %}
